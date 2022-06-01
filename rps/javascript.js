@@ -64,5 +64,13 @@ function game() {
             score += 1;
         }
      }   
-     return score; 
+
+     let score_string = score.toString();
+
+     if (score > 2) {
+         return `You win the game! Your score is ${score_string}.`;
+     }
+     else {
+        return `You lose the game! Your score is ${score_string}.`;
+     }
 }
