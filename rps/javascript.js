@@ -54,22 +54,23 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function replace_text(new_text) {
-    const container = document.querySelector('.result');
-    const remove_text = document.getElementById('text');
+function replace_text(new_text, loc, locid) {
+    const container = document.querySelector(loc);
+    const remove_text = document.getElementById(locid);
     container.removeChild(remove_text);
     const content = document.createElement('span');
-    content.setAttribute('id','text');
+    content.setAttribute('id',locid);
     content.textContent = new_text;
     container.appendChild(content);
 }
+
 
 let player_score = 0;
 let computer_score = 0;
 function game(playerSelection) {
     
     let result =playRound(playerSelection, computerPlay());
-    replace_text(result);
+    replace_text(result, '.result', 'text');
     if (result.slice(4)[0] == "W") {
         player_score += 1;
     }
@@ -77,13 +78,16 @@ function game(playerSelection) {
         computer_score += 1;
     }
     let score_string = player_score.toString();
+    let score_string_comp = computer_score.toString();
+
+    replace_text(`Your score is ${score_string}. Computer score is ${score_string_comp}.`, '.result_score', 'scores');
     if (player_score > 4) {
-         replace_text(`You win the game! Your score is ${score_string}.`);
+         replace_text(`You win the game! Your score is ${score_string}.`, '.result', 'text');
          player_score = 0;
          computer_score = 0;
      }
      else if (computer_score > 4){
-        replace_text(`You lose the game! Your score is ${score_string}.`);
+        replace_text(`You lose the game! Your score is ${score_string}.`, '.result', 'text');
         player_score = 0;
         computer_score = 0;
      }
