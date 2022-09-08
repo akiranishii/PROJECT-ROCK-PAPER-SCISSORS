@@ -54,23 +54,47 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let score = 0;
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt("Play a move! (Rock, Paper, Scissors)");
-        let result =playRound(playerSelection, computerPlay());
-        console.log(result);
-        if (result.slice(4)[0] == "W") {
-            score += 1;
-        }
-     }   
+function replace_text(new_text) {
+    const container = document.querySelector('.result');
+    const remove_text = document.getElementById('text');
+    container.removeChild(remove_text);
+    const content = document.createElement('span');
+    content.setAttribute('id','text');
+    content.textContent = new_text;
+    container.appendChild(content);
+}
 
-     let score_string = score.toString();
-
-     if (score > 2) {
-         return `You win the game! Your score is ${score_string}.`;
+let player_score = 0;
+let computer_score = 0;
+function game(playerSelection) {
+    
+    let result =playRound(playerSelection, computerPlay());
+    replace_text(result);
+    if (result.slice(4)[0] == "W") {
+        player_score += 1;
+    }
+    else {
+        computer_score += 1;
+    }
+    let score_string = player_score.toString();
+    if (player_score > 4) {
+         replace_text(`You win the game! Your score is ${score_string}.`);
+         player_score = 0;
+         computer_score = 0;
      }
-     else {
-        return `You lose the game! Your score is ${score_string}.`;
+     else if (computer_score > 4){
+        replace_text(`You lose the game! Your score is ${score_string}.`);
+        player_score = 0;
+        computer_score = 0;
      }
 }
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+
+    // and for each one we add a 'click' listener
+    button.addEventListener('click', function (e) {
+      game(button.id);
+    });
+
+});
